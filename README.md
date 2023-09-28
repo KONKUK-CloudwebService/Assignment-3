@@ -19,3 +19,20 @@ npm install cors
 - mysql2 : DB
 - axios : Promise 기반 HTTP 클라이언트
 - cors : CORS 정책을 가능하게 하는 middleware
+
+### 필요한 라이브러리
+
+```
+npm install bcrypt
+npm install jsonwebtoken
+npm install multer
+npm install multer-s3
+npm install aws-sdk
+npm install mysql2
+npm install axios
+```
+
+- bcrypt : 암호화 모듈
+- jsonwebtoken : JWT 토큰
+- multer, multer-s3 : multipart.form-data를 다루기 위한 node.js 미들웨어
+- aws-sdk : aws를 위한 npm 패키지
