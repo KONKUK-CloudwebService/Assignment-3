@@ -6,16 +6,9 @@ const morgan = require("morgan");
 
 dotenv.config();
 
-const { DataSource } = require("typeorm");
-
-const dataSource = new DataSource({
-  type: process.env.DB_CONNECTION,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-});
+const dataSource = require("./models/appDataSource");
+const routes = require("./routes");
+const baseResponse = require("./utils/baseResponse");
 
 dataSource
   .initialize()
@@ -31,6 +24,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(morgan("dev"));
+app.use(routes);
+app.use(baseResponse);
 
 app.get("/ping", (req, res) => {
   return res.status(200).json({ message: "pong" });
