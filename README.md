@@ -48,3 +48,7 @@ create database assignment3 character set utf8mb4 collate utf8mb4_general_ci;
 - mysql -u root -p 접속 후 생성 명령어 실행
 
 ### dbmate
+
+- dbmate up : 마이그레이션도 같이 진행 (DB 없는 경우 생성)
+- dbmate drop : DB를 삭제
+- dbmate create : DB를 생성 // -> 외래키 설정 시 키제약 호환성 에러가 남(utf8mb4 : 이모지 표현)
