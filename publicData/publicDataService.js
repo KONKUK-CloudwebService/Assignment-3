@@ -1,8 +1,8 @@
-const publicData = require("./publicDataDao");
+const publicDataDao = require("./publicDataDao");
 
-const getAllposts = async (offset, limit) => {
+const getAllposts = async (offset, limit, title, content) => {
   try {
-    return publicData.getAllposts(offset, limit);
+    return await publicDataDao.getAllposts(offset, limit, title, content);
   } catch (error) {
     console.log(error);
     throw error;
