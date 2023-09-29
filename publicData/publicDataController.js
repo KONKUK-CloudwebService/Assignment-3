@@ -6,7 +6,6 @@ const getAllposts = async (req, res) => {
     const { page = 0, limit = 5, title, content } = req.query;
     const offset = page * limit;
 
-    console.log(title, content);
     const rows = await publicDataService.getAllposts(
       offset,
       limit,
