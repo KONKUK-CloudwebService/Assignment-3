@@ -9,6 +9,7 @@ npm install typeorm
 npm install mysql2
 npm install axios
 npm install cors
+npm install -g dbmate
 ```
 
 - express
@@ -19,8 +20,9 @@ npm install cors
 - mysql2 : DB
 - axios : Promise 기반 HTTP 클라이언트
 - cors : CORS 정책을 가능하게 하는 middleware
+- dbmate : DB 스키마 생성 및 이력관리
 
-### 필요한 라이브러리
+### 필요한 라이브러리(미설치)
 
 ```
 npm install bcrypt
@@ -36,3 +38,17 @@ npm install axios
 - jsonwebtoken : JWT 토큰
 - multer, multer-s3 : multipart.form-data를 다루기 위한 node.js 미들웨어
 - aws-sdk : aws를 위한 npm 패키지
+
+### DB 생성
+
+```
+create database assignment3 character set utf8mb4 collate utf8mb4_general_ci;
+```
+
+- mysql -u root -p 접속 후 생성 명령어 실행
+
+### dbmate
+
+- dbmate up : 마이그레이션도 같이 진행 (DB 없는 경우 생성)
+- dbmate drop : DB를 삭제
+- dbmate create : DB를 생성 // -> 외래키 설정 시 키제약 호환성 에러가 남(utf8mb4 : 이모지 표현)
