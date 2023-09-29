@@ -52,3 +52,34 @@ create database assignment3 character set utf8mb4 collate utf8mb4_general_ci;
 - dbmate up : 마이그레이션도 같이 진행 (DB 없는 경우 생성)
 - dbmate drop : DB를 삭제
 - dbmate create : DB를 생성 // -> 외래키 설정 시 키제약 호환성 에러가 남(utf8mb4 : 이모지 표현)
+
+- 구조
+
+```
+-- migrate:up
+dbmate up 명령어 입력 시 수행할 SQL
+
+-- migrate:drop
+dbmate drop 명령어 입력 시 수행할 SQL
+
+주석은 그대로 두고 밑에 SQL문 작성
+아니면 에러나요!
+```
+
+- 테이블 수정
+
+```
+// 기존 migration 파일을 직접 수정하지 않고 새로운 migration을 진행
+예시)
+1. migration 파일 생성
+dbmate new fic_data_set_table
+
+2. 수정을 하고 싶은 부분 수정
+-- migrate:up
+ALTER TABLE users MODIFY created_at DATETIME NOT NULL DEFAULT NOW() ON UPDATE NOW();
+ALTER TABLE users MODIFY updated_at DATETIME NOT NULL DEFAULT NOW() ON UPDATE NOW();
+
+-- migrate:down
+DROP TABLE users;
+
+```
