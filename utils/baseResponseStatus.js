@@ -59,6 +59,14 @@ const baseResponseStatus = {
     responseMessage: "잘못된 토큰 타입입니다.",
   },
 
+  //   DataException
+  NONE_EXIST_DATA: {
+    key: "NONE_EXIST_DATA",
+    isSuccess: false,
+    responseCode: 2070,
+    responseMessage: "해당되는 데이터가 없습니다.",
+  },
+
   /**
    * 4000 : Database, Server 오류
    */

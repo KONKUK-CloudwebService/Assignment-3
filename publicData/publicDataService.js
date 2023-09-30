@@ -1,3 +1,5 @@
+const { NONE_EXIST_DATA } = require("../utils/baseResponseStatus");
+const CustomException = require("../utils/handler/customException");
 const publicDataDao = require("./publicDataDao");
 
 const getAllposts = async (offset, limit, title, content) => {
@@ -36,7 +38,22 @@ const updatePost = async (
   }
 };
 
+const deletePost = async (id) => {
+  try {
+    const data = await publicDataDao.getDataById(id);
+    if (data.length === 0) {
+      throw new CustomException(NONE_EXIST_DATA);
+    }
+
+    return await publicDataDao.deletePost(id);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 module.exports = {
   getAllposts,
   updatePost,
+  deletePost,
 };

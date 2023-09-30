@@ -51,7 +51,20 @@ const updatePost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await publicDataService.deletePost(id);
+
+    return baseResponse({ id: `Data ${id} deleted successfully` }, res);
+  } catch (error) {
+    console.log(error);
+    return baseResponse(error, res);
+  }
+};
+
 module.exports = {
   getAllposts,
   updatePost,
+  deletePost,
 };
