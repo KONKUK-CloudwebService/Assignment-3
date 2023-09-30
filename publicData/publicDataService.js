@@ -9,6 +9,34 @@ const getAllposts = async (offset, limit, title, content) => {
   }
 };
 
+const updatePost = async (
+  id,
+  title,
+  content,
+  division,
+  manager_department,
+  manager_phone,
+  url,
+  cost
+) => {
+  try {
+    return await publicDataDao.updatePost(
+      id,
+      title,
+      content,
+      division,
+      manager_department,
+      manager_phone,
+      url,
+      cost
+    );
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 module.exports = {
   getAllposts,
+  updatePost,
 };

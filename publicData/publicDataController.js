@@ -20,6 +20,38 @@ const getAllposts = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      title,
+      content,
+      division,
+      manager_department,
+      manager_phone,
+      url,
+      cost,
+    } = req.body;
+
+    const result = await publicDataService.updatePost(
+      id,
+      title,
+      content,
+      division,
+      manager_department,
+      manager_phone,
+      url,
+      cost
+    );
+
+    return baseResponse({ info: result.info }, res);
+  } catch (error) {
+    console.log(error);
+    return baseResponse(error, res);
+  }
+};
+
 module.exports = {
   getAllposts,
+  updatePost,
 };

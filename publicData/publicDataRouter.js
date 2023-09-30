@@ -5,6 +5,7 @@ const publicDataController = require("./publicDataController");
 
 try {
   router.get("", publicDataController.getAllposts);
+  router.put("/:id", publicDataController.updatePost);
 } catch (error) {
   console.log(error);
 }
