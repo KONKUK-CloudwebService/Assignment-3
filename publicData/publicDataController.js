@@ -44,7 +44,7 @@ const updatePost = async (req, res) => {
       cost
     );
 
-    return baseResponse({ info: result.info }, res);
+    return baseResponse({ id: id, info: result.info }, res);
   } catch (error) {
     console.log(error);
     return baseResponse(error, res);
