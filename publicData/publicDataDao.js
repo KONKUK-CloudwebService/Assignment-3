@@ -87,7 +87,29 @@ const updatePost = async (
   }
 };
 
+const getDataById = async (id) => {
+  try {
+    const query = "SELECT id FROM data WHERE id = ?";
+    return await appDataSource.query(query, [id]);
+  } catch (error) {
+    console.log(error);
+    throw new CustomException(DATABASE_ERROR);
+  }
+};
+
+const deletePost = async (id) => {
+  try {
+    const query = "DELETE FROM data WHERE id = ?";
+    return await appDataSource.query(query, [id]);
+  } catch (error) {
+    console.log(error);
+    throw new CustomException(DATABASE_ERROR);
+  }
+};
+
 module.exports = {
   getAllposts,
   updatePost,
+  deletePost,
+  getDataById,
 };
