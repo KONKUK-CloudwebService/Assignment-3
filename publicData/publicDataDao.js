@@ -2,6 +2,56 @@ const { DATABASE_ERROR } = require("../utils/baseResponseStatus");
 const CustomException = require("../utils/handler/customException");
 const appDataSource = require("../models/appDataSource");
 
+const createPost = async (
+  title,
+  content,
+  division,
+  manager_department,
+  manager_phone,
+  fileUrl,
+  cost,
+  user_id
+) => {
+  try {
+    console.log(
+      title,
+      content,
+      division,
+      manager_department,
+      manager_phone,
+      fileUrl,
+      cost,
+      user_id
+    );
+    return await appDataSource.query(
+      `
+      INSERT INTO data(      
+        title,
+        content,
+        division,
+        manager_department,
+        manager_phone,
+        url,
+        cost,
+        user_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+    `,
+      [
+        title,
+        content,
+        division,
+        manager_department,
+        manager_phone,
+        fileUrl,
+        cost,
+        user_id,
+      ]
+    );
+  } catch (err) {
+    throw new CustomException(DATABASE_ERROR);
+  }
+};
+
 const getAllposts = async (offset, limit, title, content) => {
   try {
     let query = `
@@ -108,6 +158,7 @@ const deletePost = async (id) => {
 };
 
 module.exports = {
+  createPost,
   getAllposts,
   updatePost,
   deletePost,
