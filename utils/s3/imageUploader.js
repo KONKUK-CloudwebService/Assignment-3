@@ -14,7 +14,7 @@ const generateS3Url = (bucketName, key) => {
   return `https://${bucketName}.s3.${region}.amazonaws.com/${key}`;
 };
 
-const allowedExtensions = [".png", ".jpg", ".jpeg", ".bmp"];
+const allowedExtensions = [".png", ".jpg", ".jpeg", ".bmp", ".pdf"];
 
 const storage = multer.memoryStorage(); // 이미지를 메모리에 저장하고 AWS S3로 전송
 
