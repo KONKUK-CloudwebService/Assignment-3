@@ -5,6 +5,6 @@ const router = express.Router();
 const publicDataRouter = require("../publicData/publicDataRouter");
 
 // router.use("/users", userRouter.router);
-router.use("/datas", publicDataRouter.router);
+router.use("/resources", publicDataRouter.router);
 
 module.exports = router;
