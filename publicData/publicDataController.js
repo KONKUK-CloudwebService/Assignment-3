@@ -27,7 +27,7 @@ const createPost = async (req, res) => {
       manager_phone,
       fileUrl,
       cost,
-      1
+      1 // user_id
     );
 
     return baseResponse({ postId: `${postId.insertId}` }, res);
@@ -70,9 +70,10 @@ const updatePost = async (req, res) => {
       division,
       manager_department,
       manager_phone,
-      url,
       cost,
     } = req.body;
+
+    const fileUrl = req.uploadedFileUrls;
 
     const result = await publicDataService.updatePost(
       id,
@@ -81,7 +82,7 @@ const updatePost = async (req, res) => {
       division,
       manager_department,
       manager_phone,
-      url,
+      fileUrl,
       cost
     );
 

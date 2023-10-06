@@ -147,6 +147,21 @@ const getDataById = async (id) => {
   }
 };
 
+const getImagesByPostId = async (postId) => {
+  try {
+    return await appDataSource.query(
+      `
+        SELECT * 
+        FROM data 
+        WHERE id = ?
+      `,
+      [postId]
+    );
+  } catch (err) {
+    throw new CustomException(DATABASE_ERROR);
+  }
+};
+
 const deletePost = async (id) => {
   try {
     const query = "DELETE FROM data WHERE id = ?";
@@ -161,6 +176,7 @@ module.exports = {
   createPost,
   getAllposts,
   updatePost,
+  getImagesByPostId,
   deletePost,
   getDataById,
 };
