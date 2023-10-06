@@ -1,6 +1,7 @@
 const publicDataService = require("./publicDataService");
 const baseResponse = require("../utils/baseResponse");
 const { KEY_ERROR } = require("../utils/baseResponseStatus");
+const axios = require("axios");
 
 const createPost = async (req, res) => {
   try {
@@ -39,6 +40,12 @@ const createPost = async (req, res) => {
 
 const getAllposts = async (req, res) => {
   try {
+    const url = process.env.META_DATA_URL;
+    const response = await axios.get(url);
+    const data = response.data;
+
+    const headInfo = data.OrganicAnimalProtectionFacilit[0].head;
+
     const { page = 0, limit = 5, title, content } = req.query;
     const offset = page * limit;
 
@@ -49,17 +56,12 @@ const getAllposts = async (req, res) => {
       content
     );
 
-    return baseResponse(rows, res);
+    return baseResponse({ headInfo, rows }, res);
   } catch (error) {
     console.log(error);
     return baseResponse(error, res);
   }
 };
-
-/**
- * ToDo : Refactor to Axios
- *
- */
 
 const updatePost = async (req, res) => {
   try {
