@@ -78,6 +78,9 @@ const deletePost = async (id) => {
       throw new CustomException(NONE_EXIST_DATA);
     }
 
+    const s3Image = await publicDataDao.getImagesByPostId(id); // 해당 포스트의 기존 이미지 URL 가져오기
+    await deleteImageFromS3(s3Image[0].url); // S3에서 기존 객체를 삭제
+
     return await publicDataDao.deletePost(id);
   } catch (error) {
     console.log(error);
