@@ -104,7 +104,19 @@ class CommunityService{
         }catch(err){
             throw{status: 404, message: "의도치 않은 오류"};
         };
-    }
-}
+    };
+
+    async updatePost(post_id, data){
+        await dataSource.query(
+            `
+            UPDATE community c
+            LEFT JOIN community_images ci ON c.id = ci.community_id
+            SET c.title = ?,c.content = ? , ci.community_image_url = ?
+            WHERE c.id = ?;
+            `,
+            [data.title,data.content,data.community_image_url,post_id]
+        );
+    };
+};
 
 module.exports = CommunityService;

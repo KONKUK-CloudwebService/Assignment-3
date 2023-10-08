@@ -1,5 +1,6 @@
 const Router = require('express');
 const CreatePostDTO = require('../DTO/create-post.dto');
+const UpdatePostDTO = require('../DTO/create-post.dto');
 const CommunityService = require('../service/index');
 class CommunityController{
     communityService;
@@ -17,6 +18,7 @@ class CommunityController{
         this.router.get('/:id',this.getPost.bind(this));
         this.router.get('/',this.getPosts.bind(this));
         this.router.post('/delete/:id',this.deletePost.bind(this));
+        this.router.post('/update/:id',this.updatePost.bind(this));
     };
 
     async createPost(req,res,next){
@@ -56,7 +58,19 @@ class CommunityController{
         }catch(err){
             next(err);
         };
+    };
+
+    async updatePost(req,res,next){
+        try{
+            const {id} = req.params;
+            const updatePostDTO = new UpdatePostDTO(req.body);
+            await this.communityService.updatePost(id,updatePostDTO);
+            res.status(204).json({});
+        }catch(err){
+            next(err);
+        }
     }
+
 }
 const communityController = new CommunityController();
 module.exports = communityController;
