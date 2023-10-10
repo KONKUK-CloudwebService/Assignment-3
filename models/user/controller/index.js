@@ -1,6 +1,7 @@
 const Router = require('express');
 const CreateUserDTO=require('../DTO/create-user.dto');
 const UserService = require('../service/index');
+const jwt = require('jsonwebtoken');
 
 class UserController {
     userService;
@@ -23,8 +24,13 @@ class UserController {
         try {
             const createUserDTO = new CreateUserDTO(req.body);
             await this.userService.register(createUserDTO);
-            res.status(201).json({ message: "Registration successful" });
-        } catch (err) {
+
+            const token = jwt.sign({ name: createUserDTO.name }, 'your_secret_key');
+            res.status(201).json({ message: '처리완료', token });
+            
+          } 
+            
+         catch (err) {
             next(err);
         };
     };
@@ -34,10 +40,11 @@ class UserController {
 
             const result = await this.userService.login(name,password);
             if (result.length > 0) {
-                
-                res.status(200).json({ message: "Login successful", user: result });
+                // Generate a JWT token upon successful login
+                const token = jwt.sign({ name }, 'your_secret_key');
+                res.status(200).json({ message: 'Login successful', user: result, token });
               } else {
-                res.status(403).json({ message: "Access denied" });
+                res.status(403).json({ message: 'Access denied' });
               }
             }
         catch(err){
@@ -57,3 +64,4 @@ class UserController {
 
 const dataRequestController = new UserController();
 module.exports = dataRequestController;
+    
