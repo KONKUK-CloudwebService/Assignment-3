@@ -1,5 +1,5 @@
 const dataSource = require("../../appDataSource");
-
+const baseResponse = require("../../../utils/baseResponse")
 class DataService{
     async createData(data){
         try{
@@ -20,7 +20,7 @@ class DataService{
                 [data.title, data.creater,data.data_title,data.content, data.division, data.img_url,data.csv_url,data.user_id,data.purpose]
             );
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         }
         
     };
@@ -33,7 +33,7 @@ class DataService{
             );
             return result;
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         };
     };
 
@@ -45,7 +45,7 @@ class DataService{
             );
             return result;
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         };
     }
 
@@ -57,7 +57,7 @@ class DataService{
             );
             console.log(result);
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         };
     }
 }

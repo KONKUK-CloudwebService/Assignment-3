@@ -1,6 +1,7 @@
 const Router = require('express');
 const CreateDataDTO = require('../DTO/create-data.DTO')
 const DataService = require('../service/index');
+const baseResponse = require('../../../utils/baseResponse')
 class DataUseController{
     dataUseService;
     router;
@@ -23,8 +24,7 @@ class DataUseController{
         try{
             const newData = new CreateDataDTO(req.body);
             await this.dataUseService.createData(newData);
-            res.status(201).json({message: "처리완료"});
-
+            baseResponse({message: "데이터 처리완료"},res)
         }catch(err){
             next(err);
         };
@@ -33,7 +33,7 @@ class DataUseController{
     async getDataVisuals(req,res,next){
         try{
             const result = await this.dataUseService.findDataVisuals(req.query.page);
-            res.status(200).json({result});
+            baseResponse({result},res);
         }catch(err){
             next(err);
         }
@@ -43,7 +43,7 @@ class DataUseController{
         try{
             const {id} = req.params;
             const Data = await this.dataUseService.findDataVisual(id);
-            res.status(200).json({Data});
+            baseResponse({Data},res);
         }catch(err){
             next(err);
         }
@@ -53,9 +53,9 @@ class DataUseController{
         try{
             const {id} = req.params;
             await this.dataUseService.deleteDataVisual(id);
-            res.status(204).json({});
+            res.status(204).json({deletePostId: id},res);
         }catch(err){
-
+            next(err);
         }
     }
 }
