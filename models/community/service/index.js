@@ -1,4 +1,9 @@
 const dataSource = require("../../appDataSource");
+const baseResponse = require("../../../utils/baseResponse");
+const { deleteImageFromS3 } = require("../../../utils/s3/imageUploader");
+const CustomException = require("../../../utils/handler/customException");
+const { DATABASE_ERROR } = require("../../../utils/baseResponseStatus");
+
 class CommunityService{
     async createPost(data){
         try{
@@ -25,11 +30,11 @@ class CommunityService{
                         user_id,
                         community_image_url
                     )VALUES(?,?,?)`,
-                    [1,data.user_id,data.community_image_url]
+                    [community_id[0].id,data.user_id,data.community_image_url]
                 );
             }
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         }
         
     };
@@ -54,14 +59,16 @@ class CommunityService{
                     c.id = ?
                 `,[post_id]
             );
+           
             return result;
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         };
     };
 
     async findPosts(page){
         try{
+            console.log(1);
             const offset = (page - 1) * 10;
             const result = await dataSource.query(
                 `
@@ -83,30 +90,48 @@ class CommunityService{
             );
             return result;
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         };
         
     };
 
     async deletePost(post_id){
         try{
-            const result = await dataSource.query(
+            const s3Image = await dataSource.query(
+                `SELECT * FROM community_images WHERE community_id = ?`,[post_id]
+            );
+            if(s3Image.length !== 0) {
+                await deleteImageFromS3(s3Image[0].community_image_url); 
+                await dataSource.query(
+                    `
+                    DELETE ci
+                    FROM community_images ci
+                    WHERE ci.community_id = ?
+                    `,
+                    [post_id]
+                );
+            }
+            await dataSource.query(
                 `
-                DELETE c, ci
+                DELETE c
                 FROM community c
-                LEFT JOIN community_images ci ON c.id = ci.community_id
                 WHERE c.id = ?
                 `,
                 [post_id]
             );
-            console.log(result);
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         };
     };
 
     async updatePost(post_id, data){
         try{
+            const s3Image = await dataSource.query(
+                `SELECT * FROM community_images WHERE community_id = ?`,[post_id]
+            );
+            if(s3Image.length !== 0) {
+                await deleteImageFromS3(s3Image[0].community_image_url); 
+            }
             await dataSource.query(
                 `
                 UPDATE community c
@@ -117,7 +142,7 @@ class CommunityService{
                 [data.title,data.content,data.community_image_url,post_id]
             );
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         };
     };
 };

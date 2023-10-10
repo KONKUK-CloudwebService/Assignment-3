@@ -53,7 +53,7 @@ class DataUseController{
         try{
             const {id} = req.params;
             await this.dataUseService.deleteDataVisual(id);
-            res.status(204).json({deletePostId: id},res);
+            baseResponse({deletePostId: id},res);
         }catch(err){
             next(err);
         }

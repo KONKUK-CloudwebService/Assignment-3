@@ -20,7 +20,7 @@ class CommunityController{
         this.router.get('/:id',this.getPost.bind(this));
         this.router.get('/',this.getPosts.bind(this));
         this.router.post('/post/:id',this.deletePost.bind(this));
-        this.router.post('/post/:id',this.updatePost.bind(this));
+        this.router.put('/post/:id',this.updatePost.bind(this));
     };
 
     async createPost(req,res,next){
@@ -37,6 +37,7 @@ class CommunityController{
         try{
             const {id} = req.params;
             const result = await this.communityService.findPost(id);
+            console.log(res);
             baseResponse({result},res);
         }catch(err){
             next(err);
