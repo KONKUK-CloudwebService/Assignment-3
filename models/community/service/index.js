@@ -28,9 +28,8 @@ class CommunityService{
                     [1,data.user_id,data.community_image_url]
                 );
             }
-            console.log(1);
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         }
         
     };
@@ -57,7 +56,7 @@ class CommunityService{
             );
             return result;
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         };
     };
 
@@ -84,7 +83,7 @@ class CommunityService{
             );
             return result;
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         };
         
     };
@@ -102,20 +101,24 @@ class CommunityService{
             );
             console.log(result);
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            return baseResponse(err,res);
         };
     };
 
     async updatePost(post_id, data){
-        await dataSource.query(
-            `
-            UPDATE community c
-            LEFT JOIN community_images ci ON c.id = ci.community_id
-            SET c.title = ?,c.content = ? , ci.community_image_url = ?
-            WHERE c.id = ?;
-            `,
-            [data.title,data.content,data.community_image_url,post_id]
-        );
+        try{
+            await dataSource.query(
+                `
+                UPDATE community c
+                LEFT JOIN community_images ci ON c.id = ci.community_id
+                SET c.title = ?,c.content = ? , ci.community_image_url = ?
+                WHERE c.id = ?;
+                `,
+                [data.title,data.content,data.community_image_url,post_id]
+            );
+        }catch(err){
+            return baseResponse(err,res);
+        };
     };
 };
 
