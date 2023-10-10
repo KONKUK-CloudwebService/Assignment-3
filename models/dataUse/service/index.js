@@ -1,5 +1,8 @@
 const dataSource = require("../../appDataSource");
 const baseResponse = require("../../../utils/baseResponse")
+const { deleteImageFromS3 } = require("../../../utils/s3/imageUploader");
+const CustomException = require("../../../utils/handler/customException");
+const { DATABASE_ERROR } = require("../../../utils/baseResponseStatus");
 class DataService{
     async createData(data){
         try{
@@ -20,7 +23,7 @@ class DataService{
                 [data.title, data.creater,data.data_title,data.content, data.division, data.img_url,data.csv_url,data.user_id,data.purpose]
             );
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         }
         
     };
@@ -33,7 +36,7 @@ class DataService{
             );
             return result;
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         };
     };
 
@@ -45,21 +48,23 @@ class DataService{
             );
             return result;
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         };
     }
 
     async deleteDataVisual(id){
         try{
+            const s3Image = await this.findDataVisual(id);
+            await deleteImageFromS3(s3Image[0].img_url); 
             const result = await dataSource.query(
                 "DELETE FROM dataVisual WHERE id = ?",
                 [id]
             );
             console.log(result);
         }catch(err){
-            return baseResponse(err,res);
+            throw new CustomException(DATABASE_ERROR);
         };
-    }
+    };
 }
 
 module.exports = DataService;
