@@ -1,4 +1,5 @@
 const dataSource = require("../../appDataSource");
+const jwt = require('jsonwebtoken');
 
 
 class UserService{
