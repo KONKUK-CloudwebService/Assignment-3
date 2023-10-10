@@ -4,6 +4,7 @@ const { deleteImageFromS3 } = require("../../../utils/s3/imageUploader");
 const CustomException = require("../../../utils/handler/customException");
 const { DATABASE_ERROR } = require("../../../utils/baseResponseStatus");
 
+
 class CommunityService{
     async createPost(data){
         try{
@@ -94,15 +95,17 @@ class CommunityService{
         };
         
     };
-
+    // 이걸 하나의 transaction으로 처리할 필요가 있음
     async deletePost(post_id){
+        const queryRunner = await dataSource.createQueryRunner();
+        await queryRunner.startTransaction();
         try{
-            const s3Image = await dataSource.query(
+            const s3Image = await queryRunner.manager.query(
                 `SELECT * FROM community_images WHERE community_id = ?`,[post_id]
             );
             if(s3Image.length !== 0) {
                 await deleteImageFromS3(s3Image[0].community_image_url); 
-                await dataSource.query(
+                await queryRunner.manager.query(
                     `
                     DELETE ci
                     FROM community_images ci
@@ -111,7 +114,7 @@ class CommunityService{
                     [post_id]
                 );
             }
-            await dataSource.query(
+            await queryRunner.manager.query(
                 `
                 DELETE c
                 FROM community c
@@ -119,7 +122,9 @@ class CommunityService{
                 `,
                 [post_id]
             );
+            await queryRunner.commitTransaction();
         }catch(err){
+            await queryRunner.rollbackTransaction();
             throw new CustomException(DATABASE_ERROR);
         };
     };
