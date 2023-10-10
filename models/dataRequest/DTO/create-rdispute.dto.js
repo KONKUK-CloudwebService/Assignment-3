@@ -1,0 +1,29 @@
+class CreateRdisputeDTO{
+    birth;
+    phone_number;
+    address;
+    business_number;
+    email;
+    agency;
+    manager_name;
+    manager_department;
+    manager_phone;
+    manager_email;
+    data_id;
+    user_id;
+    constructor(post){
+        this.birth=post.birth; 
+        this.phone_number=post.phone_number;
+        this.address=post.address;
+        this.business_number=post.business_number;
+        this.email=post.email;
+        this.agency=post.agency;
+        this.manager_name=post.manager_name;
+        this.manager_department=post.manager_department;
+        this.manager_phone=post.manager_phone;
+        this.manager_email=post.manager_email;
+        this.data_id=post.data_id;
+        this.user_id=post.user_id;
+    } 
+}
+module.exports=CreateRdisputeDTO;
