@@ -1,4 +1,6 @@
 const dataSource = require("../../appDataSource");
+const CustomException = require("../../../utils/handler/customException");
+const { DATABASE_ERROR } = require("../../../utils/baseResponseStatus");
 
 class DataRequestService{
     async createRData(data){
@@ -20,7 +22,7 @@ class DataRequestService{
                 [data.birth, data.phone_number, data.address, data.email, data.data_name, data.agency, data.purpose, data.user_id, data.likes]
             );
         }catch(err){
-            throw{status: 404, message: "오류발생"};
+            throw new CustomException(DATABASE_ERROR);
         }
         
     };
@@ -48,7 +50,7 @@ class DataRequestService{
                      data.manager_phone, data.manager_email, data.data_id, data.user_id]
             );
         }catch(err){
-            throw{status: 404, message: "오류발생"};
+            throw new CustomException(DATABASE_ERROR);
         }
         
     };
@@ -65,7 +67,7 @@ class DataRequestService{
 
         return result;
         } catch (err) {
-            throw{status: 404, message: "오류발생"};
+            throw new CustomException(DATABASE_ERROR);
         }
 
     }
@@ -80,7 +82,7 @@ class DataRequestService{
             
         return result;
         } catch (err) {
-            throw{status: 404, message: "오류발생"};
+            throw new CustomException(DATABASE_ERROR);
         }
 
     }
