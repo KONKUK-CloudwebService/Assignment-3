@@ -42,16 +42,28 @@ class DataRequestController {
   }
   async showRdata(req, res, next) {
     try {
+      const url = process.env.META_DATA_URL;
+      const response = await axios.get(url);
+      const data = response.data;
+
+      const headInfo = data.OrganicAnimalProtectionFacilit[0].head;
+
       const result = await this.dataRequestService.showRdata();
-      baseResponse({ result }, res);
+      baseResponse({ headInfo, result }, res);
     } catch (err) {
       next(err);
     }
   }
   async showRdispute(req, res, next) {
     try {
+      const url = process.env.META_DATA_URL;
+      const response = await axios.get(url);
+      const data = response.data;
+
+      const headInfo = data.OrganicAnimalProtectionFacilit[0].head;
+
       const result = await this.dataRequestService.showRdispute();
-      baseResponse({ result }, res);
+      baseResponse({ headInfo, result }, res);
     } catch (err) {
       next(err);
     }

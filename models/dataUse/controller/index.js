@@ -32,8 +32,14 @@ class DataUseController {
 
   async getDataVisuals(req, res, next) {
     try {
+      const url = process.env.META_DATA_URL;
+      const response = await axios.get(url);
+      const data = response.data;
+
+      const headInfo = data.OrganicAnimalProtectionFacilit[0].head;
+
       const result = await this.dataUseService.findDataVisuals(req.query.page);
-      baseResponse({ result }, res);
+      baseResponse({ headInfo, result }, res);
     } catch (err) {
       next(err);
     }
@@ -43,7 +49,14 @@ class DataUseController {
     try {
       const { id } = req.params;
       const Data = await this.dataUseService.findDataVisual(id);
-      baseResponse({ Data }, res);
+
+      const url = process.env.META_DATA_URL;
+      const response = await axios.get(url);
+      const data = response.data;
+
+      const headInfo = data.OrganicAnimalProtectionFacilit[0].head;
+
+      baseResponse({ headInfo, Data }, res);
     } catch (err) {
       next(err);
     }
