@@ -1,8 +1,16 @@
 const dataSource = require("../../appDataSource");
 const jwt = require('jsonwebtoken');
-
+const CommunityService = require("../../community/service/index");
+const CustomException = require("../../../utils/handler/customException");
+const { DATABASE_ERROR } = require("../../../utils/baseResponseStatus");
 
 class UserService{
+    communityService;
+
+    constructor() {
+        this.communityService = new CommunityService();
+    };
+
     async register(data){
         try{
             await dataSource.query(
@@ -18,7 +26,7 @@ class UserService{
             );
             
         }catch(err){
-            throw{status: 404, message: "의도치 않은 오류"};
+            throw new CustomException(DATABASE_ERROR);
         }
     };
     async login(post_name, post_password) {
@@ -33,7 +41,7 @@ class UserService{
           );
           return result;
         } catch (err) {
-          throw { status: 404, message: "An unexpected error occurred" };
+          throw new CustomException(DATABASE_ERROR);throw new CustomException(DATABASE_ERROR);
         }
     };
     
@@ -48,9 +56,31 @@ class UserService{
 
         return result;
         } catch (err) {
-            throw{status: 404, message: "오류발생"};
+            throw new CustomException(DATABASE_ERROR);
         }
 
+    }
+
+    async deleteUser(id){
+        const queryRunner = await dataSource.createQueryRunner();
+        await queryRunner.startTransaction();
+        try{
+            console.log(id);
+            await queryRunner.manager.query(
+                `
+                DELETE u
+                FROM users u
+                WHERE u.id = ?
+                `,
+                [id]
+            );
+            console.log(id);
+            await queryRunner.commitTransaction();
+            //await queryRunner.release();
+        }catch(err){
+            await queryRunner.rollbackTransaction();
+            throw new CustomException(DATABASE_ERROR);
+        }
     }
 }
 

@@ -2,6 +2,7 @@ const Router = require('express');
 const CreateRdataDTO=require('../DTO/create-rdata.dto');
 const CreateRdisputeDTO=require('../DTO/create-rdispute.dto');
 const DataRequestService = require('../service/index');
+const baseResponse = require("../../../utils/baseResponse");
 
 class DataRequestController {
     dataRequestService;
@@ -25,7 +26,7 @@ class DataRequestController {
         try {
             const createRdataDTO = new CreateRdataDTO(req.body);
             await this.dataRequestService.createRData(createRdataDTO);
-            res.status(201).json({ message: "처리완료" });
+            baseResponse({ message: "데이터 생성 완료"},res);
         } catch (err) {
             next(err);
         };
@@ -34,7 +35,7 @@ class DataRequestController {
         try {
             const createRdisputeDTO = new CreateRdisputeDTO(req.body);
             await this.dataRequestService.createRDispute(createRdisputeDTO);
-            res.status(201).json({ message: "처리완료" });
+            baseResponse({ message: "분쟁 데이터 생성 완료"},res);
         } catch (err) {
             next(err);
         };
@@ -42,7 +43,7 @@ class DataRequestController {
     async showRdata(req,res,next){
         try{
             const result = await this.dataRequestService.showRdata();
-            res.status(200).json(result);
+            baseResponse({result},res);
         }
         catch(err){
             next(err);
@@ -51,7 +52,7 @@ class DataRequestController {
     async showRdispute(req,res,next){
         try{
             const result = await this.dataRequestService.showRdispute();
-            res.status(200).json(result);
+            baseResponse({result},res);
             }
         
         catch(err){
