@@ -1,6 +1,6 @@
 const publicDataService = require("./publicDataService");
-const baseResponse = require("../utils/baseResponse");
-const { KEY_ERROR } = require("../utils/baseResponseStatus");
+const baseResponse = require("../../utils/baseResponse");
+const { KEY_ERROR } = require("../../utils/baseResponseStatus");
 const axios = require("axios");
 
 const createPost = async (req, res) => {

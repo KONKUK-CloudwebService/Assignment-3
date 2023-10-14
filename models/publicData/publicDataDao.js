@@ -1,6 +1,6 @@
-const { DATABASE_ERROR } = require("../utils/baseResponseStatus");
-const CustomException = require("../utils/handler/customException");
-const appDataSource = require("../models/appDataSource");
+const { DATABASE_ERROR } = require("../../utils/baseResponseStatus");
+const CustomException = require("../../utils/handler/customException");
+const appDataSource = require("../../models/appDataSource");
 
 const createPost = async (
   title,

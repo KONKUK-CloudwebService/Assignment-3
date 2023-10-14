@@ -1,7 +1,7 @@
-const { NONE_EXIST_DATA } = require("../utils/baseResponseStatus");
-const CustomException = require("../utils/handler/customException");
+const { NONE_EXIST_DATA } = require("../../utils/baseResponseStatus");
+const CustomException = require("../../utils/handler/customException");
 const publicDataDao = require("./publicDataDao");
-const { deleteImageFromS3 } = require("../utils/s3/imageUploader");
+const { deleteImageFromS3 } = require("../../utils/s3/imageUploader");
 
 const createPost = async (
   title,
