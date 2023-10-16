@@ -2,6 +2,7 @@ const Router = require("express");
 const CreateDataDTO = require("../DTO/create-data.DTO");
 const DataService = require("../service/index");
 const baseResponse = require("../../../utils/baseResponse");
+const axios = require("axios");
 class DataUseController {
   dataUseService;
   router;
