@@ -2,6 +2,8 @@ const Router = require("express");
 const CreateDataDTO = require("../DTO/create-data.DTO");
 const DataService = require("../service/index");
 const baseResponse = require("../../../utils/baseResponse");
+const axios = require("axios");
+
 class DataUseController {
   dataUseService;
   router;
@@ -14,8 +16,8 @@ class DataUseController {
   }
 
   init() {
-    this.router.post("/", this.insertData.bind(this));
-    this.router.get("/", this.getDataVisuals.bind(this));
+    this.router.post("", this.insertData.bind(this));
+    this.router.get("", this.getDataVisuals.bind(this));
     this.router.get("/:id", this.getDataVisual.bind(this));
     this.router.delete("/:id", this.deleteDataVisual.bind(this));
   }

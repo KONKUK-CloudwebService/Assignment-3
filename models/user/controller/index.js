@@ -18,7 +18,7 @@ class UserController {
 
   init() {
     this.router.post("/signup", this.register.bind(this));
-    this.router.get("/signin", this.login.bind(this));
+    this.router.post("/signin", this.login.bind(this));
     this.router.get("/", this.showuser.bind(this));
     this.router.post("/:id", this.deleteUser.bind(this));
   }
