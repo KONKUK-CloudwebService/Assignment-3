@@ -38,7 +38,7 @@ class CommunityController {
     try {
       const { id } = req.params;
       const result = await this.communityService.findPost(id);
-      console.log(res);
+
       baseResponse({ result }, res);
     } catch (err) {
       next(err);
