@@ -30,7 +30,6 @@ const createPost = async (req, res) => {
       cost,
       1
     );
-
     return baseResponse({ postId: `${postId.insertId}` }, res);
   } catch (error) {
     console.log(error);
@@ -58,7 +57,6 @@ const getAllposts = async (req, res) => {
 
     return baseResponse({ headInfo, rows }, res);
   } catch (error) {
-    console.log(error);
     return baseResponse(error, res);
   }
 };
@@ -86,7 +84,6 @@ const updatePost = async (req, res) => {
       url,
       cost
     );
-
     return baseResponse({ id: id, info: result.info }, res);
   } catch (error) {
     console.log(error);

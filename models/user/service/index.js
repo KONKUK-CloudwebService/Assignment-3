@@ -64,7 +64,6 @@ class UserService {
     const queryRunner = await dataSource.createQueryRunner();
     await queryRunner.startTransaction();
     try {
-      console.log(id);
       await queryRunner.manager.query(
         `
                 DELETE u
@@ -73,7 +72,6 @@ class UserService {
                 `,
         [id]
       );
-      console.log(id);
       await queryRunner.commitTransaction();
       //await queryRunner.release();
     } catch (err) {
